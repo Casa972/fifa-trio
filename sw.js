@@ -1,9 +1,11 @@
-const CACHE = "fifa-trio-v1";
+const CACHE = "fifa-trio-v2";
 const FILES = ["./", "index.html", "manifest.json", "icon.svg"];
+
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(FILES)));
   self.skipWaiting();
 });
+
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -12,6 +14,7 @@ self.addEventListener("activate", (event) => {
   );
   self.clients.claim();
 });
+
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request))
