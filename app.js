@@ -128,5 +128,7 @@ if ($("saveFb")) $("saveFb").addEventListener("click", () => {
   const url = ($("fbUrl").value || "").trim().replace(/\/+$/, "");
   localStorage.setItem(FB_KEY, url || FB_DEFAULT); $("modal").classList.remove("show"); cloudPush().then(cloudPull);
 });
-fillSelects(); renderRank(); renderHist(); cloudPull(); setInterval(cloudPull, 4000);
+fillSelects(); renderRank(); renderHist();
+cloudPull().then(function () { if (state.matches.length) return cloudPush(); });
+setInterval(cloudPull, 4000);
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
