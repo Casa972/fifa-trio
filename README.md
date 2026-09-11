@@ -1,17 +1,16 @@
 # FIFA Trio — Steeve, Noham, Luc
 
-Mini-appli mobile pour noter les matchs FIFA et voir le classement.
+Mini-appli **isolée**. Aucun lien avec Supabase ni tes autres projets.
 
-## Lien du projet
-https://github.com/Casa972/fifa-trio
+## Lien
+Après activation de Pages :
+https://casa972.github.io/fifa-trio/
 
-## Sur le téléphone
-1. Télécharge `index.html` ou ouvre le dépôt GitHub.
-2. iPhone : Safari → Partager → Sur l’écran d’accueil.
-3. Android : Chrome → menu → Ajouter à l’écran d’accueil.
+Repo : https://github.com/Casa972/fifa-trio
 
-Pour un lien web public : GitHub → Settings → Pages → Source = Deploy from branch `main` / `/ (root)`.
-Le site sera alors : https://casa972.github.io/fifa-trio/
+## Activer le site (une fois)
+1. Ouvre https://github.com/Casa972/fifa-trio/settings/pages
+2. Source : **GitHub Actions**
+3. Attends 1 minute, puis ouvre le lien ci-dessus sur les 3 téléphones.
 
-Victoire = 3 pts, nul = 1 pt, défaite = 0.
-Les résultats restent sur le téléphone. Menu ⋯ pour copier / importer un code de ligue.
+Les scores restent sur chaque téléphone (pas de base Supabase).
