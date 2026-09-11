@@ -54,39 +54,23 @@ async function cloudPush() {
   } catch (e) { setSync("Cloud : hors ligne"); }
 }
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
-function compute() {
+function compute(players, matches) {
+  const names = players || PLAYERS;
+  const list = matches || state.matches;
   const table = {};
-  PLAYERS.forEach((p) => { table[p] = { name: p, j: 0, g: 0, n: 0, p: 0, bp: 0, bc: 0, diff: 0, pts: 0 }; });
-  state.matches.forEach((m) => {
+  names.forEach((p) => { table[p] = { name: p, j: 0, g: 0, n: 0, p: 0, bp: 0, bc: 0, diff: 0, pts: 0 }; });
+  list.forEach((m) => {
+    if (!table[m.p1] || !table[m.p2]) return;
     const a = table[m.p1], b = table[m.p2]; a.j++; b.j++; a.bp += m.s1; a.bc += m.s2; b.bp += m.s2; b.bc += m.s1;
     if (m.s1 > m.s2) { a.g++; b.p++; a.pts += 3; } else if (m.s1 < m.s2) { b.g++; a.p++; b.pts += 3; } else { a.n++; b.n++; a.pts += 1; b.pts += 1; }
   });
-  PLAYERS.forEach((p) => { table[p].diff = table[p].bp - table[p].bc; });
-  return PLAYERS.map((p) => table[p]).sort((a, b) => b.pts - a.pts || b.diff - a.diff || b.bp - a.bp || a.name.localeCompare(b.name));
+  names.forEach((p) => { table[p].diff = table[p].bp - table[p].bc; });
+  return names.map((p) => table[p]).sort((a, b) => b.pts - a.pts || b.diff - a.diff || b.bp - a.bp || a.name.localeCompare(b.name));
 }
-function pairKey(a, b) { return [a, b].sort().join("|"); }
-function computeDuels() {
-  const pairs = [["Steeve", "Noham"], ["Steeve", "Luc"], ["Noham", "Luc"]];
-  return pairs.map(([a, b]) => {
-    let wa = 0, wb = 0, n = 0, ga = 0, gb = 0, j = 0;
-    state.matches.forEach((m) => {
-      const isAB = m.p1 === a && m.p2 === b;
-      const isBA = m.p1 === b && m.p2 === a;
-      if (!isAB && !isBA) return;
-      j++;
-      const sa = isAB ? m.s1 : m.s2;
-      const sb = isAB ? m.s2 : m.s1;
-      ga += sa; gb += sb;
-      if (sa > sb) wa++; else if (sb > sa) wb++; else n++;
-    });
-    let verdict = "Pas encore de match";
-    if (j) {
-      if (wa > wb) verdict = a + " mène";
-      else if (wb > wa) verdict = b + " mène";
-      else verdict = "Égalité";
-    }
-    return { a, b, wa, wb, n, ga, gb, j, verdict };
-  });
+function tableHTML(rows) {
+  return `<div class="table"><div class="thead"><div>#</div><div>Joueur</div><div class="muted">J</div><div class="muted">G</div><div class="muted">N</div><div class="muted">Diff</div><div class="muted">Pts</div></div>` +
+    rows.map((r, i) => `<div class="row"><div class="rank">${i + 1}</div><div class="pname"><span class="av ${r.name}">${r.name[0]}</span>${r.name}</div><div class="muted">${r.j}</div><div class="muted">${r.g}</div><div class="muted">${r.n}</div><div class="muted">${r.diff > 0 ? "+" + r.diff : r.diff}</div><div class="pts-cell">${r.pts}</div></div>`).join("") +
+    `</div>`;
 }
 function fillSelects() {
   $("p1").innerHTML = PLAYERS.map((p) => `<option value="${p}">${p}</option>`).join("");
@@ -97,13 +81,14 @@ function renderRank() {
   const rows = compute(); const medals = ["\uD83E\uDD47", "\uD83E\uDD48", "\uD83E\uDD49"]; const order = [rows[1], rows[0], rows[2]];
   $("podium").innerHTML = order.map((r, i) => { const real = i === 1 ? 0 : i === 0 ? 1 : 2; return `<div class="${real === 0 ? "pod first" : "pod"}"><div class="medal">${medals[real]}</div><div class="name">${r.name}</div><div class="pts">${r.pts} pts</div><div class="sub">${r.g}V · ${r.n}N · ${r.p}D</div></div>`; }).join("");
   $("tableBody").innerHTML = rows.map((r, i) => `<div class="row"><div class="rank">${i + 1}</div><div class="pname"><span class="av ${r.name}">${r.name[0]}</span>${r.name}</div><div class="muted">${r.j}</div><div class="muted">${r.g}</div><div class="muted">${r.n}</div><div class="muted">${r.diff > 0 ? "+" + r.diff : r.diff}</div><div class="pts-cell">${r.pts}</div></div>`).join("");
+  const pairs = [["Steeve", "Noham"], ["Steeve", "Luc"], ["Noham", "Luc"]];
   const box = $("duels");
   if (box) {
-    box.innerHTML = computeDuels().map((d) => `
-      <div class="duel">
-        <div class="duel-top"><span>${d.a}</span><span class="duel-score">${d.wa} – ${d.wb}</span><span>${d.b}</span></div>
-        <div class="duel-sub">${d.j} matchs · ${d.n} nul${d.n > 1 ? "s" : ""} · buts ${d.ga}–${d.gb} · <span class="winner">${d.verdict}</span></div>
-      </div>`).join("");
+    box.innerHTML = pairs.map(([a, b]) => {
+      const games = state.matches.filter((m) => (m.p1 === a && m.p2 === b) || (m.p1 === b && m.p2 === a));
+      const standings = compute([a, b], games);
+      return `<h3 class="sec">Duel ${a} vs ${b}</h3>${tableHTML(standings)}`;
+    }).join("");
   }
 }
 function renderHist() {
