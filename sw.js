@@ -1,4 +1,4 @@
-const CACHE = "fifa-trio-v2";
+const CACHE = "fifa-trio-v3";
 const FILES = ["./", "index.html", "manifest.json", "icon.svg"];
 
 self.addEventListener("install", (event) => {
