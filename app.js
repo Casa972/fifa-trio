@@ -64,6 +64,30 @@ function compute() {
   PLAYERS.forEach((p) => { table[p].diff = table[p].bp - table[p].bc; });
   return PLAYERS.map((p) => table[p]).sort((a, b) => b.pts - a.pts || b.diff - a.diff || b.bp - a.bp || a.name.localeCompare(b.name));
 }
+function pairKey(a, b) { return [a, b].sort().join("|"); }
+function computeDuels() {
+  const pairs = [["Steeve", "Noham"], ["Steeve", "Luc"], ["Noham", "Luc"]];
+  return pairs.map(([a, b]) => {
+    let wa = 0, wb = 0, n = 0, ga = 0, gb = 0, j = 0;
+    state.matches.forEach((m) => {
+      const isAB = m.p1 === a && m.p2 === b;
+      const isBA = m.p1 === b && m.p2 === a;
+      if (!isAB && !isBA) return;
+      j++;
+      const sa = isAB ? m.s1 : m.s2;
+      const sb = isAB ? m.s2 : m.s1;
+      ga += sa; gb += sb;
+      if (sa > sb) wa++; else if (sb > sa) wb++; else n++;
+    });
+    let verdict = "Pas encore de match";
+    if (j) {
+      if (wa > wb) verdict = a + " mène";
+      else if (wb > wa) verdict = b + " mène";
+      else verdict = "Égalité";
+    }
+    return { a, b, wa, wb, n, ga, gb, j, verdict };
+  });
+}
 function fillSelects() {
   $("p1").innerHTML = PLAYERS.map((p) => `<option value="${p}">${p}</option>`).join("");
   $("p2").innerHTML = PLAYERS.map((p) => `<option value="${p}">${p}</option>`).join("");
@@ -73,6 +97,14 @@ function renderRank() {
   const rows = compute(); const medals = ["\uD83E\uDD47", "\uD83E\uDD48", "\uD83E\uDD49"]; const order = [rows[1], rows[0], rows[2]];
   $("podium").innerHTML = order.map((r, i) => { const real = i === 1 ? 0 : i === 0 ? 1 : 2; return `<div class="${real === 0 ? "pod first" : "pod"}"><div class="medal">${medals[real]}</div><div class="name">${r.name}</div><div class="pts">${r.pts} pts</div><div class="sub">${r.g}V · ${r.n}N · ${r.p}D</div></div>`; }).join("");
   $("tableBody").innerHTML = rows.map((r, i) => `<div class="row"><div class="rank">${i + 1}</div><div class="pname"><span class="av ${r.name}">${r.name[0]}</span>${r.name}</div><div class="muted">${r.j}</div><div class="muted">${r.g}</div><div class="muted">${r.n}</div><div class="muted">${r.diff > 0 ? "+" + r.diff : r.diff}</div><div class="pts-cell">${r.pts}</div></div>`).join("");
+  const box = $("duels");
+  if (box) {
+    box.innerHTML = computeDuels().map((d) => `
+      <div class="duel">
+        <div class="duel-top"><span>${d.a}</span><span class="duel-score">${d.wa} – ${d.wb}</span><span>${d.b}</span></div>
+        <div class="duel-sub">${d.j} matchs · ${d.n} nul${d.n > 1 ? "s" : ""} · buts ${d.ga}–${d.gb} · <span class="winner">${d.verdict}</span></div>
+      </div>`).join("");
+  }
 }
 function renderHist() {
   const list = $("histList");
