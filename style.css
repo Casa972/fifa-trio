@@ -1,0 +1,54 @@
+:root{--bg:#07110c;--bg-2:#0b1a12;--card:#102418;--card-2:#163022;--line:rgba(255,255,255,.08);--text:#f3f7f4;--muted:#8aa394;--gold:#f5c518;--gold-dim:rgba(245,197,24,.16);--green:#3ddc84;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:Outfit,system-ui,sans-serif}
+body{background:radial-gradient(1200px 500px at 50% -10%,rgba(61,220,132,.12),transparent 55%),linear-gradient(180deg,#0a1810 0%,var(--bg) 40%);overflow:hidden}
+.app{height:100dvh;display:flex;flex-direction:column;max-width:480px;margin:0 auto}
+header{padding:calc(14px + var(--safe-t)) 18px 10px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#1f6a3c,#0d3b22);display:grid;place-items:center;font-size:22px}
+.title h1{margin:0;font-family:"Bebas Neue",sans-serif;font-size:28px;letter-spacing:.06em}
+.title p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.sync{font-size:11px;color:var(--muted);margin-top:3px}.sync.on{color:var(--green)}
+.icon-btn{width:40px;height:40px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:12px}
+main{flex:1;overflow:auto;padding:6px 16px 18px}
+.panel{display:none}.panel.active{display:block}
+.podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:8px;align-items:end;margin:8px 0 16px}
+.pod{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 8px 14px;text-align:center;min-height:118px}
+.pod.first{background:linear-gradient(180deg,rgba(245,197,24,.18),var(--card));border-color:rgba(245,197,24,.35);min-height:142px}
+.pod .pts{color:var(--gold);font-family:"Bebas Neue",sans-serif;font-size:28px}
+.pod .sub,.hint,.muted,.m-date{color:var(--muted);font-size:12px}
+.table{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.row,.thead{display:grid;grid-template-columns:28px 1fr 28px 28px 28px 36px 34px;gap:4px;align-items:center;padding:11px 12px;font-size:13px}
+.thead{font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--line)}
+.row+.row{border-top:1px solid var(--line)}
+.rank,.pts-cell{color:var(--gold);font-weight:800}
+.pname{font-weight:700;display:flex;align-items:center;gap:8px}
+.av{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:#06110b}
+.av.Steeve{background:#7ec0ff}.av.Noham{background:#ff8b8b}.av.Luc{background:#7dffb3}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px}
+.players,.scores{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:16px}
+.p-pick{background:var(--bg-2);border:1px solid var(--line);border-radius:16px;padding:10px 8px;text-align:center}
+.p-pick select{width:100%;background:transparent;border:0;color:var(--text);font-weight:700;font-size:16px;text-align:center}
+.vs{font-family:"Bebas Neue",sans-serif;font-size:22px;color:var(--gold)}
+.score-box{display:flex;align-items:center;justify-content:center;gap:6px}
+.step{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--card-2);color:#fff;font-size:22px}
+.score{width:64px;height:64px;border-radius:16px;border:1px solid rgba(245,197,24,.3);background:var(--gold-dim);color:var(--gold);text-align:center;font-family:"Bebas Neue",sans-serif;font-size:36px}
+.btn{width:100%;margin-top:16px;border:0;border-radius:16px;height:52px;background:linear-gradient(180deg,#f6d34a,#e0b40d);color:#1a1403;font-weight:800}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.btn.danger{background:#3a1515;color:#ffb4b4;border:1px solid #5a2020}
+.error,.ok{display:none;margin-top:10px;border-radius:12px;padding:10px 12px;font-size:13px}
+.error{color:#ffb4b4;background:#3a1515;border:1px solid #5a2020}
+.ok{color:#b6ffd4;background:#123322;border:1px solid #1d5a3a}
+.match{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px;display:flex;justify-content:space-between}
+.m-score b{color:var(--gold);font-family:"Bebas Neue",sans-serif;font-size:22px;font-weight:400}
+.del{border:0;background:#2a1616;color:#ffb4b4;border-radius:12px;padding:0 12px}
+.empty{text-align:center;color:var(--muted);padding:40px 10px}
+nav{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:10px 16px calc(12px + var(--safe-b));background:rgba(7,17,12,.92);border-top:1px solid var(--line)}
+.tab{height:48px;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:14px;font-weight:700}
+.tab.on{background:var(--gold-dim);color:var(--gold)}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;z-index:20}
+.modal-bg.show{display:flex}
+.modal{width:100%;max-width:480px;background:#12261b;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + var(--safe-b))}
+textarea,#fbUrl{width:100%;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--text);padding:10px;font-family:inherit}
+.row-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.hint{text-align:center;margin:14px 8px 0}
