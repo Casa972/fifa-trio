@@ -18,12 +18,12 @@ main{flex:1;overflow:auto;padding:6px 16px 18px}
 .pod .pts{color:var(--gold);font-family:"Bebas Neue",sans-serif;font-size:28px}
 .pod .sub,.hint,.muted,.m-date{color:var(--muted);font-size:12px}
 .table{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.row,.thead{display:grid;grid-template-columns:28px 1fr 28px 28px 28px 36px 34px;gap:4px;align-items:center;padding:11px 12px;font-size:13px}
+.row,.thead{display:grid;grid-template-columns:22px 1fr 22px 22px 22px 32px 28px 42px;gap:3px;align-items:center;padding:11px 10px;font-size:12px}
 .thead{font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--line)}
 .row+.row{border-top:1px solid var(--line)}
-.rank,.pts-cell{color:var(--gold);font-weight:800}
-.pname{font-weight:700;display:flex;align-items:center;gap:8px}
-.av{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:#06110b}
+.rank,.pts-cell,.pct-cell{color:var(--gold);font-weight:800;text-align:right}
+.pname{font-weight:700;display:flex;align-items:center;gap:6px;min-width:0}
+.av{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:#06110b;flex:0 0 auto}
 .av.Steeve{background:#7ec0ff}.av.Noham{background:#ff8b8b}.av.Luc{background:#7dffb3}
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px}
 .players,.scores{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:16px}
@@ -53,8 +53,3 @@ textarea,#fbUrl{width:100%;border-radius:12px;border:1px solid var(--line);backg
 .row-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .hint{text-align:center;margin:14px 8px 0}
 .sec{margin:18px 4px 8px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.duel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:8px}
-.duel-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700}
-.duel-score{font-family:"Bebas Neue",sans-serif;font-size:26px;color:var(--gold)}
-.duel-sub{margin-top:4px;font-size:12px;color:var(--muted)}
-.winner{color:var(--green)}
