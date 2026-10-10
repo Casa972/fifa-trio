@@ -68,8 +68,8 @@ function compute(players, matches) {
   return names.map((p) => table[p]).sort((a, b) => b.pts - a.pts || b.diff - a.diff || b.bp - a.bp || a.name.localeCompare(b.name));
 }
 function tableHTML(rows) {
-  return `<div class="table"><div class="thead"><div>#</div><div>Joueur</div><div class="muted">J</div><div class="muted">G</div><div class="muted">N</div><div class="muted">Diff</div><div class="muted">Pts</div></div>` +
-    rows.map((r, i) => `<div class="row"><div class="rank">${i + 1}</div><div class="pname"><span class="av ${r.name}">${r.name[0]}</span>${r.name}</div><div class="muted">${r.j}</div><div class="muted">${r.g}</div><div class="muted">${r.n}</div><div class="muted">${r.diff > 0 ? "+" + r.diff : r.diff}</div><div class="pts-cell">${r.pts}</div></div>`).join("") +
+  return `<div class="table"><div class="thead"><div>#</div><div>Joueur</div><div class="muted">J</div><div class="muted">G</div><div class="muted">N</div><div class="muted">D</div><div class="muted">Diff</div><div class="muted">Pts</div></div>` +
+    rows.map((r, i) => `<div class="row"><div class="rank">${i + 1}</div><div class="pname"><span class="av ${r.name}">${r.name[0]}</span>${r.name}</div><div class="muted">${r.j}</div><div class="muted">${r.g}</div><div class="muted">${r.n}</div><div class="muted">${r.p}</div><div class="muted">${r.diff > 0 ? "+" + r.diff : r.diff}</div><div class="pts-cell">${r.pts}</div></div>`).join("") +
     `</div>`;
 }
 function fillSelects() {
