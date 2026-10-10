@@ -84,24 +84,8 @@ function renderRank() {
   box.innerHTML = pairs.map(([a, b]) => {
     const games = state.matches.filter((m) => (m.p1 === a && m.p2 === b) || (m.p1 === b && m.p2 === a));
     const standings = compute([a, b], games);
-    const by = {};
-    standings.forEach((s) => { by[s.name] = s; });
-    const sa = by[a] || { g: 0, n: 0 };
-    const sb = by[b] || { g: 0, n: 0 };
-    const draws = sa.n;
-    const leader = sa.g > sb.g ? a + " mène" : sb.g > sa.g ? b + " mène" : "Égalité";
-    return `
-      <h3 class="sec">${a} vs ${b}</h3>
-      <div class="duel">
-        <div class="duel-top">
-          <span>${a}</span>
-          <span class="duel-score">${sa.g} – ${sb.g}</span>
-          <span>${b}</span>
-        </div>
-        <div class="duel-sub">${draws} nul${draws > 1 ? "s" : ""} · ${games.length} matchs · <span class="winner">${leader}</span></div>
-      </div>
-      ${tableHTML(standings)}
-    `;
+    const winner = standings[0] && standings[0].pts > standings[1].pts ? standings[0].name + " mène" : standings[0].pts === standings[1].pts ? "Égalité" : "";
+    return `<h3 class="sec">${a} vs ${b}</h3>${tableHTML(standings)}<p class="hint" style="margin-top:6px">${games.length} matchs · ${winner}</p>`;
   }).join("");
 }
 function renderHist() {
