@@ -78,18 +78,15 @@ function fillSelects() {
   $("p1").value = "Steeve"; $("p2").value = "Noham";
 }
 function renderRank() {
-  const rows = compute(); const medals = ["\uD83E\uDD47", "\uD83E\uDD48", "\uD83E\uDD49"]; const order = [rows[1], rows[0], rows[2]];
-  $("podium").innerHTML = order.map((r, i) => { const real = i === 1 ? 0 : i === 0 ? 1 : 2; return `<div class="${real === 0 ? "pod first" : "pod"}"><div class="medal">${medals[real]}</div><div class="name">${r.name}</div><div class="pts">${r.pts} pts</div><div class="sub">${r.g}V · ${r.n}N · ${r.p}D</div></div>`; }).join("");
-  $("tableBody").innerHTML = rows.map((r, i) => `<div class="row"><div class="rank">${i + 1}</div><div class="pname"><span class="av ${r.name}">${r.name[0]}</span>${r.name}</div><div class="muted">${r.j}</div><div class="muted">${r.g}</div><div class="muted">${r.n}</div><div class="muted">${r.diff > 0 ? "+" + r.diff : r.diff}</div><div class="pts-cell">${r.pts}</div></div>`).join("");
-  const pairs = [["Steeve", "Noham"], ["Steeve", "Luc"], ["Noham", "Luc"]];
+  const pairs = [["Noham", "Luc"], ["Luc", "Steeve"], ["Steeve", "Noham"]];
   const box = $("duels");
-  if (box) {
-    box.innerHTML = pairs.map(([a, b]) => {
-      const games = state.matches.filter((m) => (m.p1 === a && m.p2 === b) || (m.p1 === b && m.p2 === a));
-      const standings = compute([a, b], games);
-      return `<h3 class="sec">Duel ${a} vs ${b}</h3>${tableHTML(standings)}`;
-    }).join("");
-  }
+  if (!box) return;
+  box.innerHTML = pairs.map(([a, b]) => {
+    const games = state.matches.filter((m) => (m.p1 === a && m.p2 === b) || (m.p1 === b && m.p2 === a));
+    const standings = compute([a, b], games);
+    const winner = standings[0] && standings[0].pts > standings[1].pts ? standings[0].name + " mène" : standings[0].pts === standings[1].pts ? "Égalité" : "";
+    return `<h3 class="sec">${a} vs ${b}</h3>${tableHTML(standings)}<p class="hint" style="margin-top:6px">${games.length} matchs · ${winner}</p>`;
+  }).join("");
 }
 function renderHist() {
   const list = $("histList");
